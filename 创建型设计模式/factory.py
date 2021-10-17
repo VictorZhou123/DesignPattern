@@ -28,5 +28,20 @@ class WechatPay(Payment):
 
 
 # 高层模块
-p = Alipay()
+class PaymentFactory:
+    '''
+    创建简单工厂，生成Alipay和WechatPay的类
+    '''
+    def create_payment(self, method):
+        if method == 'alipay':
+            return Alipay()
+        elif method == 'wechat':
+            return WechatPay()
+        else:
+            raise TypeError("No such payment named %s" %method)
+
+
+# client
+pf = PaymentFactory()
+p = pf.create_payment("alipay") # 根据alipay生成了Alipay的类
 p.pay(100)
