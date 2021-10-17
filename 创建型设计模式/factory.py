@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractclassmethod
 # 接口
 class Payment(metaclass=ABCMeta):
     '''
-    创造一个抽象类
+    创造一个抽象类（抽象产品）
     '''
     # abstract class
     @abstractclassmethod
@@ -30,7 +30,7 @@ class WechatPay(Payment):
 # 高层模块
 class PaymentFactory:
     '''
-    创建简单工厂，生成Alipay和WechatPay的类
+    创建简单工厂（工厂角色），生成Alipay和WechatPay的类（具体产品）
     '''
     def create_payment(self, method):
         if method == 'alipay':

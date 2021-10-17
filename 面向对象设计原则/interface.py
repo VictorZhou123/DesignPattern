@@ -10,6 +10,7 @@ class Payment(metaclass=ABCMeta):
     def pay(self, money):
         pass
 
+
 # 低层模块
 class Alipay(Payment):
     '''
