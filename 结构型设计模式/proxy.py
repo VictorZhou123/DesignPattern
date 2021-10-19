@@ -1,5 +1,5 @@
-from _typeshed import OpenTextMode
 from abc import ABCMeta, abstractclassmethod
+
 
 
 # 抽象实体
@@ -15,34 +15,64 @@ class Subject(metaclass=ABCMeta):
 
 # 实体
 class RealSubject(Subject):
-    def __init__(self, filename) -> None:
+    def __init__(self, filename):
         self.filename = filename
-        f = open(self.filename, 'r', 'utf-8')
+        f = open(filename, 'r', encoding='utf-8')
         self.content = f.read()
-        f.close
+        f.close()
 
-    def read_content(self):
+    def get_content(self):
         return self.content
 
     def set_content(self, content):
-        f = open(self.filename, 'r', 'utf-8')
+        f = open(self.filename, 'w', encoding='utf-8')
         f.write(content)
         f.close()
-        return f
 
 # 代理
+
+# 1.虚代理
 class Proxy(Subject):
+    def __init__(self, filename):
+        self.filename = filename
+        self.subj = None
+
+    def get_content(self):
+        if not self.subj:
+            self.subj = RealSubject(self.filename)
+        return self.subj.get_content()
+
+    def set_content(self, content):
+        if not self.subj:
+            self.subj = RealSubject(self.filename)
+        return self.subj.set_content(content)
+
+
+# 2.保护代理
+class ProtectProxy(Subject):
+    '''
+    只读权限
+    '''
     def __init__(self, filename) -> None:
         self.filename = filename
         self.subj = None
 
-    def read_content(self):
+    def get_content(self):
         if not self.subj:
             self.subj = RealSubject(self.filename)
-        self.subj.read_content()
+        return self.subj.get_content()
 
     def set_content(self, content):
-        if not self.subj:
-            self.subj = RealSubject(self.filename)
-        self.subj.set_content(content)
+        raise PermissionError("没有写入权限.")
+        
+
+
+
+# client
+
+# subj = Proxy("结构型设计模式/test.txt")
+# print(subj.get_content())
+
+subj = ProtectProxy("结构型设计模式/test.txt")
+print(subj.set_content("input..."))
 
