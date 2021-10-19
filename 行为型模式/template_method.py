@@ -5,7 +5,7 @@ from time import sleep
 # 抽象类
 class Window(metaclass=ABCMeta):
     @abstractclassmethod
-    def start(self):
+    def start(self): # 原子方法
         pass
 
     @abstractclassmethod
@@ -16,7 +16,7 @@ class Window(metaclass=ABCMeta):
     def stop(self):
         pass
 
-    def run(self):
+    def run(self):   # 模板方法（钩子操作）
         self.start()
         while True:
             try:
