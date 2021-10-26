@@ -14,13 +14,23 @@ implements 实现
 3.继承了抽象类 一定要重写抽象类里面的抽象方法
 
 4.接口里的方法其实都是抽象方法，也就是没有方法体的。但是它不用写关键字abstract
-
+  实现一个接口就要实现接口里的所有方法
+  
 */
+
+// 1.抽象类不一定有抽象方法，有抽象方法的一定是抽象类
+abstract class A {
+    public void func1() {};
+}
+
+abstract class A {
+    public abstract void func1();
+}
 
 
 // 接口与实现
 interface C {
-
+    public void func1();
 }
 
 class D implements C {
